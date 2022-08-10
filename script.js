@@ -1,16 +1,11 @@
 const btnCat = document.getElementById('btnCat');
 const catContainer = document.getElementById('catContainer');
+const infoPosts = document.getElementById("infoPosts")
 
-btnCat.addEventListener('click', getRandomCat);
 
-function getRandomCat() {
-	fetch('http://localhost:3000/posts')
-		.then(res => res.json())
-		.then(data => {
-            catContainer.innerHTML= data[1].userId;
-            console.log(data[1].userId);
-            console.log(data[1].title);
-                        console.log(data[1].userId);
-            console.log(data[1].title);
-		});
-}
+fetch("http://localhost:3000/posts")
+.then((res) => res.json())
+.then((data)=>{
+    const posts = data.map((post) => `<li>${post.userId} ${post.id} ${post.title} ${post.body}</li>`)
+    infoPosts.innerHTML = `<ul>${posts}</ul>`
+})

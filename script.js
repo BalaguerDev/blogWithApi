@@ -1,31 +1,40 @@
-const infoPosts = document.getElementById("infoPosts")
-const ulPost = document.createElement('ul')
+let contain = document.querySelector(".container")
+
 
 fetch("http://localhost:3000/posts")
 .then((res)=> res.json())
 .then((posts)=>{
     posts.forEach(post => {
-        /* crear elementos */
-        let listPost = document.createElement("li")
-
+        let divPost = document.createElement("div")
+        divPost.setAttribute("data-bs-toggle", "modal")
+        divPost.setAttribute("data-bs-target", "#exampleModal")
         
-
-        let bodyPost = document.createElement("p")
-        bodyPost.appendChild(
-            document.createTextNode(`${post.body}`)
-        )
+        /* crear elementos */
         let titlePost = document.createElement("h2")
+        titlePost.setAttribute("class", "postTitle")
         titlePost.appendChild(
             document.createTextNode(`${post.title}`)
         )
 
-        /* asignar elementos a sus padres */
-        listPost.appendChild(titlePost)
-        listPost.appendChild(bodyPost)
+
+        let bodyPost = document.createElement("p")
+        bodyPost.setAttribute("class", "postBody")
+        bodyPost.appendChild(
+            document.createTextNode(`${post.body}`)
+        )
+
+        let separationPost = document.createElement("hr")
+
         
-        ulPost.appendChild(listPost)
+
+        /* asignar elementos a sus padres */
+        divPost.appendChild(titlePost)
+        divPost.appendChild(bodyPost)
+        divPost.appendChild(separationPost)
+        contain.appendChild(divPost)
     });
-    infoPosts.appendChild(ulPost)
+   
+    
 })
 
 /* setAtribute   para crear atributosd*/

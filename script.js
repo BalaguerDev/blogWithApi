@@ -12,8 +12,7 @@ fetch(`${url}/posts`)
 /* creating elements and add attributes */
 let divP = document.createElement("div")
     divP.setAttribute("data-bs-toggle", "modal")
-    divP.setAttribute("data-bs-target", "#exampleModal${post.id}")
-    divP.setAttribute("class", `modal`)
+    divP.setAttribute("data-bs-target", `#exampleModal-${post.id}`)
 
 let titleP = document.createElement("h2")
     titleP.setAttribute("class", "postTitle")
@@ -38,10 +37,10 @@ let separationP = document.createElement("hr")
     addHTML= `
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal-${post.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog ">
         <div class="modal-content ">
-          <div class="modal-header modal${post.id}">
+          <div class="modal-header ">
             <h5 class="modal-title" id="exampleModalLabel">${post.title}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>

@@ -1,68 +1,62 @@
 let contain = document.querySelector(".container")
-let titlePost
-let titleModal = document.querySelector(".titleModal")
-/* MAIN CONTAINER */
-/* MAIN CONTAINER */
-fetch("http://localhost:3000/posts")
-.then((res)=> res.json())
-.then((posts)=>{
+let url = "http://localhost:3000"
+let addHTML
+
+
+fetch(`${url}/posts`)
+.then(response => response.json())
+.then(posts => {
     posts.forEach(post => {
-        let divPost = document.createElement("div")
-        divPost.setAttribute("data-bs-toggle", "modal")
-        divPost.setAttribute("data-bs-target", "#exampleModal")
-        
-        /* crear elementos */
-        titlePost = document.createElement("h2")
-        titlePost.setAttribute("class", "postTitle")
-        titlePost.setAttribute("class", "modal-title")
-
-        titlePost.appendChild(
-            document.createTextNode(`${post.title}`))
-            
-        titleModal.appendChild(
-            document.createTextNode(`${post.title}`)
-        
-        )
-        
- /*        let bodyPost = document.createElement("p")
-        bodyPost.setAttribute("class", "postBody")
-        bodyPost.appendChild(
-            document.createTextNode(`${post.body}`)
-        ) */
-        let separationPost = document.createElement("hr")
-
-        /* asignar elementos a sus padres */
-        divPost.appendChild(titlePost)
-       /*  divPost.appendChild(bodyPost) */
-        divPost.appendChild(separationPost)
-        contain.appendChild(divPost)
-    });
-})
 
 
+/* creating elements and add attributes */
+let divP = document.createElement("div")
+    divP.setAttribute("data-bs-toggle", "modal")
+    divP.setAttribute("data-bs-target", "#exampleModal${post.id}")
+    divP.setAttribute("class", `modal`)
 
-/* MODAL POST */
-/* MODAL POST */
+let titleP = document.createElement("h2")
+    titleP.setAttribute("class", "postTitle")
+
+let bodyP = document.createElement("p")
+    bodyP.setAttribute("class", "postBody") 
+
+let separationP = document.createElement("hr") 
 
 
-let bodyModalPost = document.querySelector(".bodyModalPost")
-let titleModalUser =document.querySelector(".titleModalUser")
-let userNameModal =document.querySelector(".userNameModal")
-let emailModal =document.querySelector(".emailModal")
-let btnComments = document.querySelector(".btn-dark")
-
-/* 
-fetch("http://localhost:3000/posts")
-.then((res)=> res.json())
-.then((postsM)=>{
-    postsM.forEach(pM => {
-        let titleText= document.createTextNode(`${pM.title}`)
-            
-        if(titlePost===titleText){
-            titleModal.appendChild(titleText) 
-        }
-    });
-    console.log(titlePost)
-})
+/* asign the API text to the variable */
+    titleP.appendChild(document.createTextNode(`${post.title}`))
+    bodyP.appendChild(document.createTextNode(`${post.body}`))
     
- */
+
+/* introducing children to the parents */
+    divP.appendChild(titleP)
+    divP.appendChild(bodyP)
+    divP.appendChild(separationP)
+    contain.appendChild(divP)
+
+    addHTML= `
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content ">
+          <div class="modal-header modal${post.id}">
+            <h5 class="modal-title" id="exampleModalLabel">${post.title}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          ${post.body}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `
+    divP.insertAdjacentHTML("afterbegin",addHTML)
+    })
+    
+})

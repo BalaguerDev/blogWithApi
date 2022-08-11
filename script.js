@@ -12,6 +12,7 @@ fetch(`${url}/posts`)
 
 /* creating elements and add attributes */
     let divP = document.createElement("div")
+        divP.style.cursor="pointer"
         divP.setAttribute("data-bs-toggle", "modal")
         divP.setAttribute("data-bs-target", `#exampleModal-${post.id}`)
 
@@ -36,17 +37,21 @@ fetch(`${url}/posts`)
         divP.appendChild(separationP)
         contain.appendChild(divP)
 
-            fetch(`${url}/comments`)
-            .then(response => response.json())
-            .then(comments => {
-                comments.forEach(comment => {
-
-                fetch(`${url}/users`)
+        fetch(`${url}/users`)
                 .then(response => response.json())
                 .then(users => {
                     users.forEach(user => {
-                        if(post.userId === user.id){
-                            modalHTML= `
+
+                        fetch(`${url}/comments`)
+                        .then(response => response.json())
+                        .then(comments => {
+                            comments.forEach(comment => {
+
+                
+                        if(post.userId != user.id){
+                            return
+                        }
+                        modalHTML= `
                             <div class="modal fade" id="exampleModal-${post.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -64,28 +69,12 @@ fetch(`${url}/posts`)
 
                                         <div class="modal-footer commentsSection">
                                             <h3>Comments</h3>
-                                            <p>
-                                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
-                                                Toggle width collapse
-                                            </button>
-                                            </p>
-                                            <div style="min-height: 120px;">
-                                                <div class="collapse collapse-horizontal" id="collapseWidthExample">
-                                                    <div class="card card-body" style="width: 300px;">
-                                                        <p>${comment.body}</p>
-                                                        <p>${comment.email}</p>
-                                                        <p>${comment.name}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>`
 
                             divP.insertAdjacentHTML("afterbegin",modalHTML)
-                        }
-                        
                     })
                 })
             })

@@ -2,3 +2,13 @@
     margin: 0 auto;
     padding: 20px;
 }
+
+.navbar-brand{
+    color: aliceblue;
+    margin-left: 50px;
+}
+.container{
+    box-shadow: 4px 4px 10px black;
+    margin-top: 50px;
+}
+

@@ -3,7 +3,6 @@ let url = "http://localhost:3000"
 let modalHTML
 
 
-
 fetch(`${url}/posts`)
 .then(response => response.json())
 .then(posts => {
@@ -20,38 +19,28 @@ fetch(`${url}/posts`)
 
     let titleP = document.createElement("h3")
         titleP.setAttribute("class", "postTitle")
+        titleP.appendChild(document.createTextNode(`${post.title}`))
 
     let bodyP = document.createElement("p")
         bodyP.setAttribute("class", "postBody") 
-
-    let separationP = document.createElement("hr") 
-
-
-/* asign the API text to the variable */
-        titleP.appendChild(document.createTextNode(`${post.title}`))
         bodyP.appendChild(document.createTextNode(`${post.body}`))
-        
+    let separationP = document.createElement("hr") 
 
 /* introducing children to the parents */
         divP.appendChild(titleP)
         divP.appendChild(separationP)
         contain.appendChild(divP)
 
-        fetch(`${url}/users`)
-                .then(response => response.json())
-                .then(users => {
-                    users.forEach(user => {
+            fetch(`${url}/users`)
+            .then(response => response.json())
+            .then(users => {
+                users.forEach(user => {
 
-                        fetch(`${url}/comments`)
-                        .then(response => response.json())
-                        .then(comments => {
-                            comments.forEach(comment => {
-
-                
-                        if(post.userId != user.id){
+                    if(post.userId !== user.id){
                             return
-                        }
-                        modalHTML= `
+                    }
+
+                    modalHTML= `
                             <div class="modal fade" id="exampleModal-${post.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -66,18 +55,27 @@ fetch(`${url}/posts`)
                                             <p>${user.username}</p>
                                             <p>${user.email}</p>
                                         </div>
-
-                                        <div class="modal-footer commentsSection">
-                                            <h3>Comments</h3>
+                                        <p>
+                                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                                                Toggle width collapse
+                                            </button>
+                                        </p>
+                                        <div style="min-height: 120px;">
+                                            <div class="collapse collapse-horizontal" id="collapseWidthExample">
+                                                <div class="card card-body" style="width: 300px;">
+                                                    This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
+                                                </div>
+                                                <div class="modal-footer commentsSection">
+                                                    <h3>Comments</h3>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>`
-
-                            divP.insertAdjacentHTML("afterbegin",modalHTML)
+                            document.getElementById("main").insertAdjacentHTML("afterbegin",modalHTML)
+                        })
                     })
+                
                 })
             })
-        })
-    })
-})
